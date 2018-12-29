@@ -1,2 +1,1 @@
-# validator.github.io
-validator form
+## Перейти к **[DEMO](https://shevruslan.github.io/form-validator/)**
