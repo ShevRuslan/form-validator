@@ -14,3 +14,8 @@ form {
     border: 1px solid red;
     transition: 0.6s;
 }
+form div {
+    color: red;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
