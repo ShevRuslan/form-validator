@@ -59,7 +59,7 @@ class FormValidator {
 
         return validate;
     }
-    get() {
+    validate() {
         if(this.validateAllInputs() == true) {
             let password = form.querySelector('#password');
             let repeatPassword = form.querySelector('#repeatPassword');
@@ -118,5 +118,5 @@ let validator = new FormValidator(inputs);
 buttonSubmit.addEventListener('click', function(e) {
     e.preventDefault();
     
-    validator.get();
+    validator.validate();
 });
