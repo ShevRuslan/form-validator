@@ -18,6 +18,11 @@ let inputs = [
         error: 'Неправильно набрана фамилия.',
     },
     {
+        name: 'ot',
+        regex: '^[a-zA-Zа-яёА-ЯЁ]+$',
+        error: 'Неправильно набрано отчество.',
+    },
+    {
         name:  'password',
         regex: '(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}',
         error: 'Неправильно набран пароль.'
@@ -26,7 +31,7 @@ let inputs = [
     {
         name:  'repeatPassword',
         regex: '(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}',
-        error: 'Пароли не совпадают.'
+        error: 'Неправильно набран пароль.'
     }
 ]
 class FormValidator {
@@ -34,7 +39,7 @@ class FormValidator {
         this.elements = elements;
         this.addEventInputs = false;
     }
-    _addEvent(elements) {
+    _addEvent() {
         this.elements.forEach(function(elem) {
             let element = document.querySelector('#' + elem.name);
             element.addEventListener('input', () => {this.validateOneInput(elem)});
@@ -46,8 +51,37 @@ class FormValidator {
             this._addEvent();
             this.addEventInputs = true;
         }
+        let validate = true;
 
-        this.elements.forEach(element => this.validateOneInput(element));
+        this.elements.forEach(function(element) {;
+            if( this.validateOneInput(element) == false) validate = false;
+        }.bind(this));
+
+        return validate;
+    }
+    get() {
+        if(this.validateAllInputs() == true) {
+            let password = form.querySelector('#password');
+            let repeatPassword = form.querySelector('#repeatPassword');
+
+            if(this.checkPasswordAndRepeatPassword(password.value, repeatPassword.value)) {
+                console.log("Все поля прошли валидацию. Пароли верны.");
+            }
+            else{
+                console.log('Пароли не верны.');
+            }
+        }
+        else {
+            console.log('Поля не прошли валидацию');
+        }
+
+    }
+    checkPasswordAndRepeatPassword(pass, repeatPass) {
+        if(pass == repeatPass) {
+            return true;
+        }
+
+        return false;
     }
     validateOneInput(object) {
         let _object = object;
@@ -58,11 +92,14 @@ class FormValidator {
         if(element.value.trim() == "" || validator == false) {
             element.classList.add('border__red');
             wrapperError.textContent = _object.error;
+            return false;
         }
         else {
             element.classList.remove('border__red');
             wrapperError.textContent = '';
         }
+
+        return true;
     }
     validateByTemplate(value, template) {
         let _template = new RegExp(template);
@@ -74,10 +111,12 @@ class FormValidator {
         return true;
     }
 }
+
+
 let validator = new FormValidator(inputs);
 
 buttonSubmit.addEventListener('click', function(e) {
     e.preventDefault();
     
-    validator.validateAllInputs();
+    validator.get();
 });
