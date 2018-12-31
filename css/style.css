@@ -4,7 +4,10 @@ body {
     padding: 0;
 }
 .navbar {
-    background-color: #33b5e5;
+    background-color: #2BBBAD
+}
+.btnSubmit {
+    background-color: #2BBBAD
 }
 form {
     margin-top: 80px;
