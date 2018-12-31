@@ -19,3 +19,10 @@ form div {
     margin-bottom: 15px;
     font-size: 12px;
 }
+.rules {
+    list-style: none;
+    padding: 0;
+}
+.rules li {
+    margin-top: 15px;
+}
