@@ -46,7 +46,7 @@
               
               </header>
       <section class="container">
-        <form class="border border-light p-5">
+        <form class="border border-light p-5" method="POST" action="/">
 
           <p class="h4 mb-4 text-center">Валидатор</p>
           
@@ -70,6 +70,10 @@
           <label for="nameInput">Name input</label>
           <input type="text" id="name" name="name" class="form-control " placeholder="Text input">
           <div id="error_name"></div>
+
+          <label for="phoneInput">Phone input</label>
+          <input type="text" id="phone" name="phone" class="form-control " placeholder="Text input">
+          <div id="error_phone"></div>
 
           <label for="surName">Surname input</label>
           <input type="text" id="surName" name="surName" class="form-control " placeholder="Text input">
@@ -108,6 +112,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/js/mdb.min.js"></script>
+  <script src="js/form-validator.js"></script>
   <script src="js/script.js"></script>  
   <!-- <script src="js/calc.js"></script> -->
 </body>

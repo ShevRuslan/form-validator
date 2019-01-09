@@ -1,6 +1,4 @@
-let buttonSubmit = document.querySelector('.btnSubmit');
 let form = document.querySelector('form');
-//массив со всеми объектами(инпутами)
 let inputs = [
     {
         name: 'email',
@@ -8,8 +6,12 @@ let inputs = [
         error: 'Неправильно набран email.',
     },
     {
-        name: 'name',
+        name: 'phone',
         regex: '^[a-zA-Zа-яёА-ЯЁ]+$',
+        error: 'Неправильно набран телефон'
+    },
+    {
+        name: 'name',
         error: 'Неправильно набрано имя.',
     },
     {
@@ -24,99 +26,34 @@ let inputs = [
     },
     {
         name:  'password',
-        regex: '(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}',
+        regex: '^[a-zA-Zа-яёА-ЯЁ]+$',
         error: 'Неправильно набран пароль.'
 
     },
     {
         name:  'repeatPassword',
-        regex: '(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}',
+        regex: '^[a-zA-Zа-яёА-ЯЁ]+$',
         error: 'Неправильно набран пароль.'
     }
 ]
-class FormValidator {
-    constructor(elements) {
-        this.elements = elements;
-        this.addEventInputs = false;
-    }
-    _addEvent() {
-        this.elements.forEach(function(elem) {
-            let element = document.querySelector('#' + elem.name);
-            element.addEventListener('input', () => {this.validateOneInput(elem)});
-        }.bind(this));
-    }
-    validateAllInputs() {
+//(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}
 
-        if(this.addEventInputs == false) {
-            this._addEvent();
-            this.addEventInputs = true;
-        }
-        let validate = true;
+const callback = () => console.log(1);
 
-        this.elements.forEach(function(element) {;
-            if( this.validateOneInput(element) == false) validate = false;
-        }.bind(this));
-
-        return validate;
-    }
-    validate() {
-        if(this.validateAllInputs() == true) {
-            let password = form.querySelector('#password');
-            let repeatPassword = form.querySelector('#repeatPassword');
-
-            if(this.checkPasswordAndRepeatPassword(password.value, repeatPassword.value)) {
-                console.log("Все поля прошли валидацию. Пароли верны.");
-            }
-            else{
-                console.log('Пароли не верны.');
-            }
-        }
-        else {
-            console.log('Поля не прошли валидацию');
-        }
-
-    }
-    checkPasswordAndRepeatPassword(pass, repeatPass) {
-        if(pass == repeatPass) {
-            return true;
-        }
-
-        return false;
-    }
-    validateOneInput(object) {
-        let _object = object;
-        let element = document.querySelector('#' + _object.name);
-        let validator = this.validateByTemplate(element.value.trim(), _object.regex);
-        let wrapperError = form.querySelector('#error_' + _object.name);
-
-        if(element.value.trim() == "" || validator == false) {
-            element.classList.add('border__red');
-            wrapperError.textContent = _object.error;
-            return false;
-        }
-        else {
-            element.classList.remove('border__red');
-            wrapperError.textContent = '';
-        }
-
-        return true;
-    }
-    validateByTemplate(value, template) {
-        let _template = new RegExp(template);
-
-        if(_template.test(value) == false) {
-            return false;
-        }
-
-        return true;
-    }
+let config = {
+    elements: inputs,
+    checkPasswords: true,
 }
+const validator = new Validator(config);
+
+form.addEventListener('submit', (e) => {
+
+    e.preventDefault()
 
 
-let validator = new FormValidator(inputs);
+    if(validator.validate()) {
+        e.currentTarget.submit();
+    }
 
-buttonSubmit.addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    validator.validate();
+    return false;
 });
