@@ -41,7 +41,8 @@ const callback = () => console.log(1);
 
 let config = {
     elements: inputs,
-    checkPasswords: true,
+    checkPasswords: false,
+    callback: callback,
 }
 const validator = new Validator(config);
 
@@ -51,7 +52,7 @@ form.addEventListener('submit', (e) => {
 
 
     if(validator.validate()) {
-        e.currentTarget.submit();
+        return true
     }
 
     return false;
