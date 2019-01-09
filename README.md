@@ -75,7 +75,7 @@ form.addEventListener('submit', (e) => {
 
 Это пример показал отправку на сервер без технологии __ajax__, если вам нужно отправить с помощью __ajax__, вы можете передать функцию в callback (при инициализации валидатора), либо использовать следующий образом:
 
-```
+```javascript
 form.addEventListener('submit', (e) => {
 
     e.preventDefault();
