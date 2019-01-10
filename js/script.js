@@ -20,7 +20,7 @@ let inputs = [
         error: 'Неправильно набрана фамилия.',
     },
     {
-        name: 'ot',
+        name: 'o',
         regex: '^[a-zA-Zа-яёА-ЯЁ]+$',
         error: 'Неправильно набрано отчество.',
     },
@@ -57,3 +57,4 @@ form.addEventListener('submit', (e) => {
 
     return false;
 });
+

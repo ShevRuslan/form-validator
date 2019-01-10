@@ -8,7 +8,8 @@ class FormValidator {
     _addEvent() {
         this.elements.forEach(function(elem) {
             let element = document.querySelector('#' + elem.name);
-            element.addEventListener('input', () => {this.validateOneInput(elem)});
+            if(element === null) console.error(`Ошибка в поиске элемента: \n Элемента с именем '${elem.name}' не существует! \n Проверьте id у этого поля. `);
+            else element.addEventListener('input', () => {this.validateOneInput(elem)});
         }.bind(this));
     }
     validateAllInputs() {
@@ -29,8 +30,8 @@ class FormValidator {
         if(this.validateAllInputs() == true) {
 
             if(this.checkPasswords) {
-                let password = form.querySelector('#password');
-                let repeatPassword = form.querySelector('#repeatPassword');
+                let password = document.querySelector('#password');
+                let repeatPassword = document.querySelector('#repeatPassword');
 
                 if(this.checkPasswordAndRepeatPassword(password.value, repeatPassword.value)) {
                     return true;
@@ -56,18 +57,23 @@ class FormValidator {
     validateOneInput(object) {
         let _object = object;
         let element = document.querySelector('#' + _object.name);
-        let validator = this.validateByTemplate(element.value.trim(), _object.regex);
-        let wrapperError = form.querySelector('#error_' + _object.name);
+        if(element !== null) {
+            let validator = this.validateByTemplate(element.value.trim(), _object.regex);
+            let wrapperError = document.querySelector('#error_' + _object.name);
 
-        if(element.value.trim() == "" || validator == false) {
-            element.classList.add('border__red');
-            wrapperError.textContent = _object.error;
-            return false;
+            if(element.value.trim() == "" || validator == false) {
+                element.classList.add('border__red');
+                wrapperError.textContent = _object.error;
+                return false;
+            }
+            element.classList.remove('border__red');
+            wrapperError.textContent = '';
+
+            return true;
         }
-        element.classList.remove('border__red');
-        wrapperError.textContent = '';
-
-        return true;
+        else {
+            console.error(`Ошибка в валидации: \n Поле с id '${_object.name}' не может пройти валидацию, т.к такого элемента не существует! \n Проверьте id у этого поля.`);
+        }
     }
     validateByTemplate(value, template) {
 
