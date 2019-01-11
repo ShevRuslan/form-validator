@@ -187,7 +187,7 @@ __У вас всегда должно быть что-то похожее на �
 
     let config = {
         elements: inputs,
-        checkPasswords: true,
+        checkPasswords: false,
         callback: callback
     }
 
